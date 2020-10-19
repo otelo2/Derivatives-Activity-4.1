@@ -5,7 +5,7 @@ module functions
             implicit none
             real, intent (in) :: x
 
-            f = log(x)
+            f = x*x*x + 3*x*x + 3*x + 1
 
             return
         end function
@@ -119,7 +119,7 @@ program derivatives
     real :: a, b, h=0.01, delta, x0
     real :: derivative2P, derivative3PE, derivative3PM, derivative5PE, derivative5PM
     integer :: selection, i, n
-    real, dimension(100) :: derivativeArray, x0Array !Size 100 just to be sure
+    real, dimension(200) :: derivativeArray2P,derivativeArray3PE,derivativeArray3PM,derivativeArray5PE,derivativeArray5PM, x0Array !Size 200 just to be sure
 
     write(*,*) 'Use default values or input custom values? (0=Default) (1=Custom)'
     read(*,*) selection
@@ -128,9 +128,9 @@ program derivatives
         write(*,*) 'Input the values of a, b and n '
         read(*,*) a, b, n
     else
-        a = 1
-        b = 2
-        n = 4
+        a = -13
+        b = 11
+        n = 100
     end if
 
     delta = (b-a)/n
@@ -144,11 +144,15 @@ program derivatives
         call fivePointMidpoint(x0, h, derivative5PM)
 
         !Now store which derivative in the array???
-        derivativeArray(i) = derivative3PE
+        derivativeArray2P(i) = derivative2P
+        derivativeArray3PE(i) = derivative3PE !This is the good one
+        derivativeArray3PM(i) = derivative3PM
+        derivativeArray5PE(i) = derivative5PE
+        derivativeArray5PM(i) = derivative5PM
         x0Array(i) = x0
 
-        write(*,*)'For x0 =', x0
-        write(*,*)derivative2P,derivative3PE,derivative3PM,derivative5PE,derivative5PM
+        !write(*,*)'For x0 =', x0
+        !write(*,*)derivative2P,derivative3PE,derivative3PM,derivative5PE,derivative5PM
 
         x0 = x0 + delta
 
@@ -158,7 +162,7 @@ program derivatives
     open(1, file = 'infoDerivatives.txt')
     write(1,*) '  #x                y'
     do i = 1, n
-        write(1,*) x0Array(i), derivativeArray(i)
+        write(1,*) x0Array(i), derivativeArray3PE(i)
     end do
     close(1)
     write(*,*) 'Output can be found in "infoDerivatives.txt"'
