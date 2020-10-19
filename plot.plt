@@ -5,5 +5,5 @@ set nokey
 set grid
 set xlabel "x"
 set ylabel "y"
-m="infoDerivatives.txt"
+m="infoDerivatives3PE.txt"
 plot m using 1:2 with linespoints
