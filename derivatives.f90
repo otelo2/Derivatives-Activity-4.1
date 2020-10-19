@@ -159,28 +159,14 @@ program derivatives
     end do
 
     !Write the x0 and derivative to the file
-    open(1, file = 'infoDerivatives2P.txt')
-    open(2, file = 'infoDerivatives3PE.txt')
-    open(3, file = 'infoDerivatives3PM.txt')
-    open(4, file = 'infoDerivatives5PE.txt')
-    open(5, file = 'infoDerivatives5PM.txt')
-    write(1,*) '#TwoPoint  x             y'
-    write(2,*) '#ThreePointEndpoint x             y'
-    write(3,*) '#ThreePointMidpoint  x             y'
-    write(4,*) '#FivePointEndpoint  x             y'
-    write(5,*) '#FivePointMidpoint  x             y'
+    open(1, file = 'infoDerivatives.txt')
+    write(1,*) '#x                  TwoPoint ThreePointEndpoint ThreePointMidpoint FivePointEndpoint FivePointMidpoint '
     do i = 1, n
-        write(1,*) x0Array(i), derivativeArray2P(i)
-        write(2,*) x0Array(i), derivativeArray3PE(i) !The good one
-        write(3,*) x0Array(i), derivativeArray3Pm(i)
-        write(4,*) x0Array(i), derivativeArray5PE(i)
-        write(5,*) x0Array(i), derivativeArray5PE(i)
+        write(1,*)  x0Array(i), derivativeArray2P(i), derivativeArray3PE(i), & 
+                    derivativeArray3PM(i), derivativeArray5PE(i), derivativeArray5PM(i)
     end do
     close(1)
-    close(2)
-    close(3)
-    close(4)
-    close(5)
+
     write(*,*) 'Output can be found in "infoDerivatives.txt"'
 
     !Plot with gnuplot
